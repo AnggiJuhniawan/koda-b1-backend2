@@ -1,6 +1,7 @@
 using KodaStore.Api.Data;
 using KodaStore.Api.DTOs;
 using KodaStore.Api.Models;
+using KodaStore.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileSystemGlobbing;
 
@@ -11,10 +12,11 @@ namespace KodaStore.Api.Controllers;
 
 public sealed class ProductController : ControllerBase
 {
-    private readonly InMemoryProductCatalog _catalog;
-    public ProductController(InMemoryProductCatalog catalog)
+    private readonly IProductService _service;
+
+    public ProductController(IProductService service)
     {
-        _catalog = catalog;
+        _service = service;
     }
 
     [HttpGet]
@@ -22,9 +24,7 @@ public sealed class ProductController : ControllerBase
         typeof(IReadOnlyList<ProductResponse>), StatusCodes.Status200OK)]
     public ActionResult<IReadOnlyList<Product>> GetAll()
     {
-        var products = _catalog.GetAll().Select(ProductResponse.FromModel).ToArray();
-
-        return Ok(products);
+        return Ok(_service.GetAll());
     }
 
     [HttpGet("{productCode}")]
@@ -33,18 +33,9 @@ public sealed class ProductController : ControllerBase
     public ActionResult<ProductResponse> GetByCode(
         [FromRoute] string productCode)
     {
-        var product = _catalog.GetByCode(productCode);
+        var product = _service.GetByCode(productCode);
 
-        if (product is null)
-        {
-            return Problem(
-                statusCode: StatusCodes.Status404NotFound,
-                title: "Product not found",
-                detail: $"No product was found for code {productCode}"
-            );
-
-        }
-        return Ok(ProductResponse.FromModel(product));
+        return product is null ? Problem(statusCode: StatusCodes.Status404NotFound, title: "Product not found") : Ok(product);
     }
     // HTTPPOST
     [HttpPost]
@@ -55,17 +46,17 @@ public sealed class ProductController : ControllerBase
         try
         {
             // Map DTO ke Model Internal
-            var product = new Product(request.ProductCode, request.Name, request.Price, request.Stock, request.Category);
+            var product = _service.Create(request);
 
-            // Simpan ke database/memory
-            _catalog.CreateProduct(product);
+            if (product is null)
+            {
+                return Problem(statusCode: StatusCodes.Status409Conflict, title: "Product code already exists");
+            }
 
             // Kembalikan response 201
             return CreatedAtAction(
-                actionName: nameof(GetByCode),
-                routeValues: new { productCode = product.ProductCode },
-                value: ProductResponse.FromModel(product)
-            );
+                nameof(GetByCode),
+                new { productCode = product.ProductCode }, product);
         }
         catch (ArgumentException e)
         {
@@ -81,22 +72,10 @@ public sealed class ProductController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public IActionResult Delete([FromRoute] string productCode)
     {
-        // Cek data
-        var product = _catalog.GetByCode(productCode);
-
-        if (product is null)
-        {
-            return Problem(
-                statusCode: StatusCodes.Status404NotFound,
-                title: "Product not found",
-                detail: $"No product was found for code {productCode}."
-            );
-        }
-        // Hapus Data
-        _catalog.Remove(productCode);
-
-        return NoContent();
-
+        return _service.Delete(productCode) ? NoContent() : Problem(
+            statusCode: StatusCodes.Status404NotFound,
+            title: "Product not found",
+            detail: $"No product was found for code {productCode}.");
     }
 
     [HttpPut("{productCode}")]
@@ -106,23 +85,11 @@ public sealed class ProductController : ControllerBase
     public ActionResult<ProductResponse> Update(
         [FromRoute] string productCode, [FromBody] UpdateProductRequest request)
     {
-        // cek product yg mau diupdate ada ga?
-        var exitingProduct = _catalog.GetByCode(productCode);
-
-        if (exitingProduct is null)
-        {
-            return Problem(statusCode: StatusCodes.Status404NotFound, title: "Product not found", detail: $"No product was found for code {productCode}.");
-        }
-
         try
         {
-            var updateProdek = new Product(productCode, request.Name, request.Price, request.Stock, request.Category);
+            var exitingProduct = _service.Update(productCode, request);
 
-            // Simpan perubahan ke db/inMemory
-            _catalog.UpdateProduct(productCode, updateProdek);
-
-            // Kembalikan data update
-            return Ok(ProductResponse.FromModel(updateProdek));
+            return exitingProduct is null ? Problem(statusCode: StatusCodes.Status404NotFound, title: "Product not found", detail: $"No product was found for code {productCode}.") : Ok(exitingProduct);
         }
         catch (ArgumentException e)
         {

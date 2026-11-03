@@ -8,7 +8,7 @@ GET {{baseUrl}}/api/v1/products
 Accept: application/json
 
 ### Get Product By Code
-GET {{baseUrl}}/api/v1/products/PC001
+GET {{baseUrl}}/api/v1/products/PR001
 Accept: application/json
 
 ### POST Product
