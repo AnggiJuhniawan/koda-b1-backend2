@@ -2,14 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KodaStore.Api.Controllers;
 
-[ApiController]
-[Route("")]
-
-public class HomeController : ControllerBase
+public class HomeController : Controller
 {
     [HttpGet]
+    [Route("/")]
     public IActionResult Index()
     {
-        return Ok("Welcome");
+        return View("~/Views/Index.cshtml");
     }
 }

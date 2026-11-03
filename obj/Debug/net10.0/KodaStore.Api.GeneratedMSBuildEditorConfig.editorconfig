@@ -26,3 +26,11 @@ build_property.EnableCodeStyleSeverity =
 [C:/Users/User01/Documents/_DATA D/Batch 1/Example/WEEK 4/WEEK 4/DOTNET2/src/KodaStore.Api/Views/Catalog/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0YWxvZ1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User01/Documents/_DATA D/Batch 1/Example/WEEK 4/WEEK 4/DOTNET2/src/KodaStore.Api/Views/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User01/Documents/_DATA D/Batch 1/Example/WEEK 4/WEEK 4/DOTNET2/src/KodaStore.Api/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

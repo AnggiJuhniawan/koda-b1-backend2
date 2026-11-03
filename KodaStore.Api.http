@@ -17,10 +17,10 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "productCode": "PR001",
+    "productCode": "P001",
     "name": "Mouse",
-    "price": 30000,
-    "stock": 15,
+    "price": 300022222222222222222200000,
+    "stock": 12,
     "category": "Elektronik"
 }
 
