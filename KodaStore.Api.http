@@ -19,7 +19,7 @@ Content-Type: application/json
 {
     "productCode": "P001",
     "name": "Mouse",
-    "price": 300022222222222222222200000,
+    "price": 3000,
     "stock": 12,
     "category": "Elektronik"
 }

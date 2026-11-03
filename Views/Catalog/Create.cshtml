@@ -1,0 +1,37 @@
+@model CreateProductViewModel
+
+@{
+    ViewData["Title"] = "Tambah Product";
+}
+
+<h1>Tambah Product</h1>
+<form asp-controller="Catalog" asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for=""></label>
+        <input asp-for="ProductCode" />
+        <span asp-validation-for="ProductCode"></span>
+    </div>
+    <div>
+        <label asp-for=""></label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label asp-for=""></label>
+        <input asp-for="Price" type="number" min="0" />
+        <span asp-validation-for="Price"></span>
+    </div>
+    <div>
+        <label asp-for=""></label>
+        <input asp-for="Stock" type="number" min="0" />
+        <span asp-validation-for="Stock"></span>
+    </div>
+    <div>
+        <label asp-for=""></label>
+        <input asp-for="Category" />
+        <span asp-validation-for="Category"></span>
+    </div>
+
+    <button type="submit">Save Product</button>
+</form>

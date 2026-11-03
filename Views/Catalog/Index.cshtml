@@ -6,47 +6,43 @@
     ViewData["Title"] = "Catalog Page";
     var rupiah = CultureInfo.GetCultureInfo("id-ID");
 }
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-</head>
-
-<body>
-    <table border="1">
-        <tr>
-            <th>Product Code</th>
-            <th>Product</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Stock</th>
-        </tr>
-        <tbody>
-            @if (Model.Count == 0)
+<button><a asp-action="Create">Add Product</a></button>
+<table border="1">
+    <tr>
+        <th>Product Code</th>
+        <th>Product</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+    </tr>
+    <tbody>
+        @if (Model.Count == 0)
+        {
+            <tr>
+                <td>Belum ada Product</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var product in Model)
             {
                 <tr>
-                    <td>Belum ada Product</td>
+                    <td>@product.ProductCode</td>
+                    <td>@product.Name</td>
+                    <td>@product.Category</td>
+                    <td>@product.Price.ToString("C0", rupiah)</td>
+                    <td>@product.Stock</td>
+                    <td>
+                        <a asp-action="Details" asp-route-productCode="@product.ProductCode">Details</a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-productCode="@product.ProductCode">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-productCode="@product.ProductCode">Delete</a>
+                    </td>
                 </tr>
             }
-            else
-            {
-                @foreach (var product in Model)
-                {
-                    <tr>
-                        <td>@product.ProductCode</td>
-                        <td>@product.Name</td>
-                        <td>@product.Category</td>
-                        <td>@product.Price.ToString("C0", rupiah)</td>
-                        <td>@product.Stock</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-</body>
-
-</html>
+        }
+    </tbody>
+</table>
