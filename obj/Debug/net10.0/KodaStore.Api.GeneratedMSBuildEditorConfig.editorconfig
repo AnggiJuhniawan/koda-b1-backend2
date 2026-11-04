@@ -27,6 +27,18 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0YWxvZ1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/User01/Documents/_DATA D/Batch 1/Example/WEEK 4/WEEK 4/DOTNET2/src/KodaStore.Api/Views/Catalog/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0YWxvZ1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User01/Documents/_DATA D/Batch 1/Example/WEEK 4/WEEK 4/DOTNET2/src/KodaStore.Api/Views/Catalog/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0YWxvZ1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User01/Documents/_DATA D/Batch 1/Example/WEEK 4/WEEK 4/DOTNET2/src/KodaStore.Api/Views/Catalog/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0YWxvZ1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/User01/Documents/_DATA D/Batch 1/Example/WEEK 4/WEEK 4/DOTNET2/src/KodaStore.Api/Views/Catalog/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0YWxvZ1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -37,6 +49,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/User01/Documents/_DATA D/Batch 1/Example/WEEK 4/WEEK 4/DOTNET2/src/KodaStore.Api/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User01/Documents/_DATA D/Batch 1/Example/WEEK 4/WEEK 4/DOTNET2/src/KodaStore.Api/Views/Shared/_StockBadge.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TdG9ja0JhZGdlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/User01/Documents/_DATA D/Batch 1/Example/WEEK 4/WEEK 4/DOTNET2/src/KodaStore.Api/Views/_ViewImports.cshtml]

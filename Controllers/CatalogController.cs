@@ -5,6 +5,7 @@ using KodaStore.Api.ViewModels;
 using System.ComponentModel;
 namespace KodaStore.Api.Controllers;
 
+[Route("catalog")]
 public sealed class CatalogController : Controller
 {
     private readonly IProductService _service;
@@ -13,12 +14,8 @@ public sealed class CatalogController : Controller
         _service = service;
     }
 
-    [HttpGet("/catalog")]
-    public IActionResult Index()
-    {
-        var products = _service.GetAll();
-        return View(products);
-    }
+    [HttpGet("")]
+    public IActionResult Index() => View(_service.GetAll());
 
     [HttpGet("details/{productCode}")]
     public IActionResult Details(string productCode)
@@ -29,10 +26,10 @@ public sealed class CatalogController : Controller
     }
 
     [HttpGet("create")]
-    public IActionResult Create()
-    {
-        return View(new CreateProductViewModel());
-    }
+    public IActionResult Create() => View(new CreateProductViewModel());
+    // {
+    //     return View(new CreateProductViewModel());
+    // }
 
     [HttpPost("create")]
     [ValidateAntiForgeryToken]
@@ -79,6 +76,33 @@ public sealed class CatalogController : Controller
             Stock = product.Stock,
             Category = product.Category
         });
+    }
+
+    [HttpPost("edit/{productCode}")]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(string productCode, EditProductViewModel model)
+    {
+        ViewData["ProductCode"] = productCode;
+        if (!ModelState.IsValid)
+            return View(model);
+
+        try
+        {
+            var request = new UpdateProductRequest(
+                model.Name, model.Price!.Value,
+                model.Stock!.Value, model.Category);
+            var updated = _service.Update(productCode, request);
+            if (updated is null) return NotFound();
+
+            TempData["Success"] = "Produk berhasil diperbarui.";
+            return RedirectToAction(nameof(Details),
+                new { productCode = updated.ProductCode });
+        }
+        catch (ArgumentException ex)
+        {
+            ModelState.AddModelError(string.Empty, ex.Message);
+            return View(model);
+        }
     }
 
     [HttpGet("delete/{productCode}")]
