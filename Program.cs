@@ -10,10 +10,16 @@ builder.Services.AddControllersWithViews();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails();
-builder.Services.AddSingleton<InMemoryProductCatalog>();
+// builder.Services.AddSingleton<InMemoryProductCatalog>();
 
-builder.Services.AddSingleton<IProductRepository, InMemoryProductRepository>();
-builder.Services.AddSingleton<IProductService, ProductService>();
+// builder.Services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+// builder.Services.AddSingleton<IProductService, ProductService>();
+
+// Repository
+builder.Services.AddScoped<IProductRepository, SqlProductRepository>();
+
+// Service
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 

@@ -11,33 +11,53 @@ public sealed class ProductService : IProductService
     {
         _repository = repository;
     }
-    public ProductResponse? Create(ProductRequest request)
+
+    // CREATE
+    public async Task<ProductResponse?> CreateAsync(ProductRequest request, CancellationToken cancellationToken)
     {
         var product = new Product(request.ProductCode, request.Name, request.Price, request.Stock, request.Category);
 
-        return _repository.TryAdd(product) ? ProductResponse.FromModel(product) : null;
+        var created = await _repository.TryAddAsync(product, cancellationToken);
+
+        return created ? ProductResponse.FromModel(product) : null;
     }
 
-    public bool Delete(string productCode)
+    // DELETE
+    public Task<bool> DeleteAsync(string productCode, CancellationToken cancellationToken)
     {
-        return _repository.TryDelete(productCode);
+        if (string.IsNullOrWhiteSpace(productCode
+        ) || productCode.Trim().Length > 30)
+        {
+            return Task.FromResult(false);
+        }
+        return _repository.TryDeleteAsync(productCode, cancellationToken);
     }
 
-    public IReadOnlyList<ProductResponse> GetAll()
+    public async Task<IReadOnlyList<ProductResponse>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return _repository.GetAll().Select(ProductResponse.FromModel).ToArray();
+        var products = await _repository.GetAllAsync(cancellationToken);
+
+        return products.Select(ProductResponse.FromModel).ToArray();
     }
 
-    public ProductResponse? GetByCode(string productCode)
+    public async Task<ProductResponse?> GetByCodeAsync(string productCode, CancellationToken cancellationToken)
     {
-        var product = _repository.GetByCode(productCode);
+        if (string.IsNullOrWhiteSpace(productCode
+        ) || productCode.Trim().Length > 30)
+        {
+            return null;
+        }
+        var product = await _repository.GetByCodeAsync(productCode, cancellationToken);
         return product is null ? null : ProductResponse.FromModel(product);
     }
 
-    public ProductResponse? Update(string productCode, UpdateProductRequest request)
+    // Update
+    public async Task<ProductResponse?> UpdateAsync(string productCode, UpdateProductRequest request, CancellationToken cancellationToken)
     {
         var product = new Product(productCode, request.Name, request.Price, request.Stock, request.Category);
 
-        return _repository.TryUpdate(product) ? ProductResponse.FromModel(product) : null;
+        var updated = await _repository.TryUpdateAsync(product, cancellationToken);
+
+        return updated ? ProductResponse.FromModel(product) : null;
     }
 }

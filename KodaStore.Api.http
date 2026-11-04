@@ -17,7 +17,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "productCode": "P001",
+    "productCode": "P002",
     "name": "Mouse",
     "price": 3000,
     "stock": 12,
@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ### UPDATE DATA
-PUT {{baseUrl}}/api/v1/products/PR001
+PUT {{baseUrl}}/api/v1/products/P002
 Accept: application/json
 Content-Type: application/json
 
